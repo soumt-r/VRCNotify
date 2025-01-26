@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://github.com/soumt-r/VRCNotify/blob/main/img/splash.png" style="width:500px">
+</p>
+
 # VRCNotify
 
 VRCNotify is a real-time notification tool designed for VRChat users. It monitors VRChat logs and sends customizable notifications to Discord webhooks. This tool is ideal for users who want to stay informed about player interactions, room events, or other activities in VRChat.
