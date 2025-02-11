@@ -21,7 +21,7 @@ jobs:
       - name: Extract changelog for release
         id: changelog
         run: |
-          $TAG="${{ github.ref_name }}""
+          $TAG="${{ github.ref_name }}"
           $CHANGELOG=$(awk -v tag="$TAG" '/^## / {if (p) exit; if ($2 == tag) p=1} p' CHANGELOG.md)
           echo "changelog<<EOF" >> $GITHUB_ENV
           echo "$CHANGELOG" >> $GITHUB_ENV
