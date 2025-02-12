@@ -20,12 +20,20 @@ jobs:
 
       - name: Extract changelog for release
         id: changelog
+        shell: pwsh
         run: |
           $TAG="${{ github.ref_name }}"
-          $CHANGELOG=$(awk -v tag="$TAG" '/^## / {if (p) exit; if ($2 == tag) p=1} p' CHANGELOG.md)
-          echo "changelog<<EOF" >> $GITHUB_ENV
-          echo "$CHANGELOG" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          $CHANGELOG = Get-Content CHANGELOG.md | ForEach-Object {
+            if ($_ -match '^## ') {
+              if ($p) { break }
+              if ($_ -match "^## $TAG") { $p = $true }
+            }
+            if ($p) { $_ }
+          }
+          Add-Content -Path $env:GITHUB_ENV -Value "changelog<<EOF"
+          Add-Content -Path $env:GITHUB_ENV -Value "$CHANGELOG"
+          Add-Content -Path $env:GITHUB_ENV -Value "EOF"
+          echo "::set-output name=changelog::$CHANGELOG"
 
       - name: Run build script
         run: |
