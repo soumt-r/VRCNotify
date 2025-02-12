@@ -102,6 +102,141 @@ document.getElementById('toggle-log').addEventListener('click', () => {
     }
 });
 
+// Info modal functionality
+const infoModal = document.getElementById('info-modal');
+const infoButton = document.getElementById('info-button');
+const closeButton = document.getElementsByClassName('close')[0];
+
+infoButton.onclick = function() {
+    infoModal.style.display = 'block';
+    // 강제 리플로우를 위해 setTimeout 사용
+    setTimeout(() => {
+        infoModal.classList.add('visible');
+    }, 10);
+}
+
+function closeModal() {
+    infoModal.classList.remove('visible');
+    // 트랜지션이 완료된 후 display: none 설정
+    setTimeout(() => {
+        infoModal.style.display = 'none';
+    }, 300); // CSS 트랜지션 시간과 동일하게 설정
+}
+
+closeButton.onclick = closeModal;
+
+window.onclick = function(event) {
+    if (event.target == infoModal) {
+        closeModal();
+    }
+}
+
+// License functionality
+const licenseList = document.getElementById('license-list');
+const licenseText = document.getElementById('license-text');
+
+async function fetchLicense(licenseName) {
+    try {
+        const response = await fetch(`/licenses/license-${licenseName}.txt`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return await response.text();
+    } catch (error) {
+        console.error("Could not fetch the license:", error);
+        return "License text could not be loaded.";
+    }
+}
+
+licenseList.addEventListener('click', async function(e) {
+    if(e.target && e.target.nodeName == "LI") {
+        const license = e.target.getAttribute('data-license');
+        const licenseContent = await fetchLicense(license);
+        licenseText.textContent = licenseContent;
+        
+        // 라이센스 텍스트를 표시할 때 페이드 인 효과
+        licenseText.style.display = 'block';
+        licenseText.style.opacity = '0';
+        setTimeout(() => {
+            licenseText.style.opacity = '1';
+        }, 10);
+    }
+});
+
+const versionModal = document.getElementById('version-modal');
+const versionTrigger = document.getElementById('version-trigger');
+const versionCloseButton = versionModal.querySelector('.close');
+const currentVersionDisplay = document.getElementById('current-version');
+const latestVersionDisplay = document.getElementById('latest-version');
+const changelogContent = document.getElementById('changelog-content');
+
+function formatMarkdown(text) {
+    // Replace markdown headers with styled divs
+    text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    return text
+        .split('\n')
+        .map(line => {
+            if (line.startsWith('### ')) {
+                return `<div class="changelog-h3">${line.substring(4)}</div>`;
+            } else if (line.startsWith('## ')) {
+                return `<div class="changelog-h2">${line.substring(3)}</div>`;
+            } else if (line.startsWith('# ')) {
+                return `<div class="changelog-h1">${line.substring(2)}</div>`;
+            }
+            return line;
+        })
+        .join('\n');
+}
+
+async function updateVersionInfo() {
+    try {
+        const currentVersion = await eel.get_current_version()();
+        const latestVersion = await eel.get_latest_version()();
+        
+        currentVersionDisplay.textContent = currentVersion;
+        latestVersionDisplay.textContent = latestVersion;
+        versionTrigger.textContent = `v${currentVersion}`;
+        
+        // Update changelog
+        const changelog = await eel.get_changelog()();
+        changelogContent.innerHTML = formatMarkdown(changelog);
+    } catch (error) {
+        console.error("Error updating version info:", error);
+        currentVersionDisplay.textContent = "Error";
+        latestVersionDisplay.textContent = "Error";
+    }
+}
+
+function openVersionModal() {
+    versionModal.style.display = 'block';
+    setTimeout(() => {
+        versionModal.classList.add('visible');
+    }, 10);
+}
+
+function closeVersionModal() {
+    versionModal.classList.remove('visible');
+    setTimeout(() => {
+        versionModal.style.display = 'none';
+    }, 300);
+}
+
+versionTrigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    openVersionModal();
+});
+
+versionCloseButton.addEventListener('click', closeVersionModal);
+
+window.addEventListener('click', (event) => {
+    if (event.target === versionModal) {
+        closeVersionModal();
+    }
+});
+
+// Initial version info update
+updateVersionInfo();
+
 createBlobs();
 
 eel.expose(updateState);

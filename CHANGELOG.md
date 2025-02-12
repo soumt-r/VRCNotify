@@ -2,6 +2,13 @@
 
 All notable changes to VRCNotify will be documented in this file.
 
+## v3.0.2
+*Released on 2024-02-12*
+
+### Added
+- Added about page.
+- Implemented version check function.
+
 ## v3.0.1
 *Released on 2024-01-24*
 

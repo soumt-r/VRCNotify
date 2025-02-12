@@ -12,7 +12,7 @@ import os
 import requests
 
 # ------- CONSTANTS -------
-VERSION = "3.0.1"
+VERSION = "3.0.2"
 STATES = ["waiting for log", "notify ready", "paused notify", "error", "webhook setup", "sending webhook"]
 COLORS = {
     "waiting for log": "rgba(0, 100, 255, 0.7)",
@@ -116,6 +116,33 @@ def handle_input(now_state, input_value):
 
         state.update_state("waiting for log")
         state.update_latest_activity("Config file written.")
+
+@eel.expose
+def get_current_version():
+    return VERSION
+
+@eel.expose
+def get_latest_version():
+    # GitHub API를 통해 최신 버전 확인
+    try:
+        response = requests.get("https://api.github.com/repos/soumt-r/VRCNotify/releases/latest")
+        if response.status_code == 200:
+            return response.json()["tag_name"].replace('v', '')
+        return "Unknown"
+    except:
+        return "Unknown"
+
+@eel.expose
+def get_changelog():
+    # GitHub API를 통해 CHANGELOG.md 내용 가져오기
+    try:
+        response = requests.get("https://api.github.com/repos/soumt-r/VRCNotify/contents/CHANGELOG.md")
+        if response.status_code == 200:
+            import base64
+            return base64.b64decode(response.json()["content"]).decode("utf-8")
+        return "Failed to load changelog."
+    except:
+        return "Failed to load changelog."
 
 # ------- STATE MANAGEMENT -------
 class VRCNotifyState:

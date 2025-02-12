@@ -30,10 +30,8 @@ jobs:
             }
             if ($p) { $_ }
           }
-          Add-Content -Path $env:GITHUB_ENV -Value "changelog<<EOF"
-          Add-Content -Path $env:GITHUB_ENV -Value "$CHANGELOG"
-          Add-Content -Path $env:GITHUB_ENV -Value "EOF"
           echo "::set-output name=changelog::$CHANGELOG"
+          echo "changelog=$CHANGELOG" >> $GITHUB_ENV
 
       - name: Run build script
         run: |

@@ -105,6 +105,302 @@
             background-color: rgba(255, 255, 255, 0.3);
             transform: translateY(-50%) scale(1.1);
         }
+
+        #info-button {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            z-index: 20;
+            background-color: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 1rem;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #info-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        #info-modal {
+            display: none;
+            position: fixed;
+            overflow-y: scroll;
+            z-index: 30;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        #info-modal.visible {
+            opacity: 1;
+        }
+        .modal-content {
+            background-color: #1a1a1a;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            color: white;
+            transform: scale(0.95) translateY(20px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        #info-modal.visible .modal-content {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+        .close {
+            color: #666;
+            float: right;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            padding: 5px;
+        }
+        .close:hover {
+            color: #fff;
+        }
+        .app-title {
+            font-size: 2em;
+            font-weight: 300;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+        .app-subtitle {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        #creator-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #252525;
+            border-radius: 10px;
+        }
+        #profile-pic {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-right: 15px;
+            border: 2px solid #333;
+        }
+        #creator-text {
+            flex-grow: 1;
+            min-width: 0; /* 텍스트 오버플로우 방지 */
+        }
+        #creator-text h2 {
+            font-size: 1.2em;
+            margin: 0 0 5px 0;
+            font-weight: normal;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        #creator-text p {
+            color: #888;
+            margin: 0;
+            font-size: 0.9em;
+        }
+        .social-links {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .social-link {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 0.9em;
+        }
+        .social-link:hover {
+            color: #fff;
+        }
+        .section-title {
+            font-size: 1.1em;
+            color: #666;
+            margin: 20px 0 10px 0;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #333;
+        }
+        #license-list {
+            list-style-type: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        #license-list li {
+            cursor: pointer;
+            padding: 12px;
+            background-color: #252525;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border: 1px solid #333;
+            font-size: 0.9em;
+            text-align: center;
+        }
+        #license-list li:hover {
+            background-color: #333;
+            transform: translateY(-2px);
+        }
+        #license-text {
+            display: none;
+            margin-top: 15px;
+            padding: 12px;
+            background-color: #252525;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 0.8em;
+            color: #aaa;
+            border: 1px solid #333;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        /* 스크롤바 스타일링 */
+        #license-text::-webkit-scrollbar {
+            width: 8px;
+        }
+        #license-text::-webkit-scrollbar-track {
+            background: #1a1a1a;
+            border-radius: 4px;
+        }
+        #license-text::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+        #license-text::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        @media (max-width: 400px) {
+            .modal-content {
+                margin: 2% auto;
+                padding: 15px;
+            }
+            .app-title {
+                font-size: 1.8em;
+            }
+            #profile-pic {
+                width: 50px;
+                height: 50px;
+            }
+            #license-list {
+                grid-template-columns: 1fr;
+            }
+        }
+        .version-text {
+            color: #666;
+            font-size: 0.5em;
+            margin-left: 8px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .version-text:hover {
+            color: #fff;
+        }
+        #version-modal {
+            display: none;
+            position: fixed;
+            overflow-y: scroll;
+            z-index: 30;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        #version-modal.visible {
+            opacity: 1;
+        }
+        .version-modal-content {
+            background-color: #1a1a1a;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            color: white;
+            transform: scale(0.95) translateY(20px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        #version-modal.visible .version-modal-content {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+        .version-card {
+            background-color: #252525;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border: 1px solid #333;
+        }
+        .version-card-title {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+        .version-card-content {
+            color: #fff;
+            font-size: 1em;
+            word-break: break-all;
+        }
+        .version-card-link {
+            color: #3498db;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .version-card-link:hover {
+            color: #2980b9;
+        }
+        #changelog-reader {
+            margin-top: 20px;
+            background-color: #252525;
+            border-radius: 8px;
+            border: 1px solid #333;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        #changelog-content {
+            padding: 15px;
+            white-space: pre-wrap;
+            font-size: 0.9em;
+        }
+        /* Markdown-style heading formatting */
+        .changelog-h1 {
+            font-size: 1.5em;
+            color: #fff;
+            margin: 7px 0 5px 0;
+            border-bottom: 2px solid #333;
+        }
+        .changelog-h2 {
+            font-size: 1.3em;
+            color: #fff;
+            margin: 6px 0 2px 0;
+        }
+        .changelog-h3 {
+            font-size: 1.1em;
+            color: #aaa;
+            margin: 5px 0 2px 0;
+        }
     </style>
 </head>
 <body>
@@ -123,6 +419,63 @@
             <div id="log-content"></div>
         </div>
         <button id="toggle-log">&gt;</button>
+        <button id="info-button">i</button>
+        <div id="info-modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h1 class="app-title">VRCNotify<span class="version-text" id="version-trigger">v1.0.0</span></h1>
+                <div class="app-subtitle">Send join/leave log to your discord</div>
+                <div id="creator-info">
+                    <img id="profile-pic" src="/rera.png" alt="Developer's profile picture">
+                    <div id="creator-text">
+                        <h2>Rera*C</h2>
+                        <p>Developer</p>
+                        <div class="social-links">
+                            <a href="https://rerac.dev" class="social-link" target="_blank">Website</a>
+                            <a href="https://github.com/soumt-r" class="social-link" target="_blank">GitHub</a>
+                            <a href="https://mi.rerac.dev/rera" class="social-link" target="_blank">Misskey</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-title">Open Source Licenses</div>
+                <ul id="license-list">
+                    <li data-license="vrcnotify">VRCNotify</li>
+                    <li data-license="eel">Eel</li>
+                    <li data-license="gevent">gevent</li>
+                    <li data-license="pyfiglet">pyfiglet</li>
+                    <li data-license="watchdog">watchdog</li>
+                </ul>
+                <div id="license-text"></div>
+            </div>
+        </div>
+        <div id="version-modal">
+            <div class="version-modal-content">
+                <span class="close">&times;</span>
+                <h2 style="margin-top: 0;">Version Information</h2>
+                
+                <div class="version-card">
+                    <div class="version-card-title">Current Version</div>
+                    <div class="version-card-content" id="current-version">Loading...</div>
+                </div>
+                
+                <div class="version-card">
+                    <div class="version-card-title">Latest Version</div>
+                    <div class="version-card-content" id="latest-version">Loading...</div>
+                </div>
+                
+                <div class="version-card">
+                    <div class="version-card-title">GitHub Repository</div>
+                    <div class="version-card-content">
+                        <a href="https://github.com/soumt-r/VRCNotify" target="_blank" class="version-card-link">
+                            github.com/soumt-r/VRCNotify
+                        </a>
+                    </div>
+                </div>
+    
+                <div id="changelog-reader">
+                    <div id="changelog-content">Loading changelog...</div>
+                </div>
+            </div>
     </div>
     <script src="/eel.js"></script>
     <script src="script.js"></script>
